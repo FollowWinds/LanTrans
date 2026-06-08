@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>局域网文件共享</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1><span class="icon">📡</span> 局域网文件共享</h1>
+        <p class="subtitle">同一 Wi-Fi 下的设备访问 <code>{{ request.host_url }}</code> 即可上传 / 下载</p>
+
+        <!-- Flash 消息（仅下载错误等场景） -->
+        {% with msgs = get_flashed_messages(with_categories=true) %}
+        {% for cat, msg in msgs %}
+        <div class="msg msg-{{ cat }}">{{ msg }}</div>
+        {% endfor %}
+        {% endwith %}
+
+        <!-- 上传区域 -->
+        <div class="upload-card">
+            <h2>⬆️ 上传文件</h2>
+            <form class="upload-form" action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" id="fileInput" required>
+                <button class="btn" type="submit" id="uploadBtn">上传</button>
+                <button class="btn btn-danger" type="button" id="cancelBtn">✕ 取消</button>
+            </form>
+
+            <!-- 进度条 -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-track">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="progress-info">
+                    <span class="progress-percent" id="progressPercent">0%</span>
+                    <span class="progress-speed" id="progressSpeed"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 文件列表 -->
+        <div class="files-card">
+            <h2>📂 文件列表 <span style="font-weight:400;color:var(--muted);font-size:0.85rem">({{ files|length }} 个)</span></h2>
+            {% if files %}
+            <ul class="file-list">
+                {% for f in files %}
+                <li class="file-item">
+                    <div class="file-info">
+                        <span class="file-icon">{{ f.icon }}</span>
+                        <div>
+                            <div class="file-name">{{ f.name }}</div>
+                            <div class="file-meta">{{ f.size_str }} · {{ f.mtime }}</div>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        <a class="btn btn-sm" href="{{ url_for('download', filename=f.name) }}" download>⬇ 下载</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="empty">
+                <span class="icon">📭</span>
+                还没有文件，上传第一个吧
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 模态弹窗（错误/超时提示） -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-icon" id="modalIcon"></div>
+            <div class="modal-title" id="modalTitle"></div>
+            <div class="modal-body" id="modalBody"></div>
+            <button class="btn" id="modalClose">知道了</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+</body>
+</html>

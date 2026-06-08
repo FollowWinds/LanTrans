@@ -1,0 +1,312 @@
+/* ============================================================
+   局域网文件共享 — 样式表
+   ============================================================ */
+
+:root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --green: #4ade80;
+    --red: #f87171;
+    --orange: #fb923c;
+    --radius: 10px;
+}
+
+/* ---- 基础重置 ---- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+h1 .icon { font-size: 1.8rem; }
+
+.subtitle {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+}
+.subtitle code {
+    background: var(--surface);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+/* ---- 卡片 ---- */
+.upload-card, .files-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.upload-card h2, .files-card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ---- 上传表单 ---- */
+.upload-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+input[type="file"] {
+    flex: 1 1 280px;
+    color: var(--text);
+    padding: 8px 0;
+}
+input[type="file"]::file-selector-button {
+    background: var(--accent);
+    color: #0f172a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 12px;
+    transition: opacity 0.15s;
+}
+input[type="file"]::file-selector-button:hover {
+    opacity: 0.85;
+}
+
+/* ---- 按钮 ---- */
+.btn {
+    background: var(--accent);
+    color: #0f172a;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.95rem;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+}
+.btn:hover { opacity: 0.85; }
+
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.btn-danger {
+    background: var(--red);
+    color: #fff;
+    display: none;  /* 默认隐藏，上传时显示 */
+}
+
+/* ---- 进度条 ---- */
+.progress-container {
+    margin-top: 14px;
+    display: none;  /* 默认隐藏 */
+}
+
+.progress-track {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #818cf8);
+    width: 0%;
+    border-radius: 3px;
+    transition: width 0.15s linear;
+}
+
+.progress-bar.complete {
+    background: linear-gradient(90deg, var(--green), #34d399);
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: var(--muted);
+}
+
+.progress-percent {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.progress-speed {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---- 消息条 ---- */
+.msg {
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+}
+.msg-success { background: #166534; color: #bbf7d0; }
+.msg-error   { background: #7f1d1d; color: #fecaca; }
+
+/* ---- 文件列表 ---- */
+.file-list { list-style: none; }
+
+.file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.file-item:last-child { border-bottom: none; }
+
+.file-info {
+    flex: 1 1 260px;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-icon { font-size: 1.4rem; }
+
+.file-name {
+    font-weight: 500;
+    word-break: break-all;
+    color: var(--text);
+}
+
+.file-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.file-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.empty {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--muted);
+}
+.empty .icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+
+/* ---- 模态弹窗 ---- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.15s ease;
+}
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px 20px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: slideUp 0.2s ease;
+}
+
+.modal-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.modal-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.modal-body {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 22px;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.modal .btn {
+    min-width: 100px;
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 500px) {
+    body { padding: 12px; }
+    .file-item { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---- 动画 ---- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.5; }
+}
+.uploading .progress-bar {
+    animation: pulse 1.2s ease-in-out infinite;
+}
